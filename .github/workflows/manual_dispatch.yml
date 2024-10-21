@@ -1,0 +1,32 @@
+name: Manual Dispatch Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      configMap:
+        type: choice
+        description: 'ConfigMap name'
+        required: true
+        options: 
+          - scf-config
+      flag:
+        type: choice
+        description: 'Feature flag name'
+        required: true
+        options: 
+          - TAX_INTEGRATION_ENABLED
+      status:
+        type: boolean
+        description: 'Feature flag is enabled'
+        required: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send greeting
+        run: echo "${{ github.event.inputs.flag }}\:${{ github.event.inputs.status }}"
